@@ -19,6 +19,7 @@ import com.idormy.sms.forwarder.database.viewmodel.BaseViewModelFactory
 import com.idormy.sms.forwarder.database.viewmodel.SenderViewModel
 import com.idormy.sms.forwarder.databinding.FragmentSendersWebhookBinding
 import com.idormy.sms.forwarder.entity.MsgInfo
+import com.idormy.sms.forwarder.entity.setting.WebhookParams
 import com.idormy.sms.forwarder.entity.setting.WebhookSetting
 import com.idormy.sms.forwarder.utils.CommonUtils
 import com.idormy.sms.forwarder.utils.EVENT_TOAST_ERROR
@@ -133,7 +134,15 @@ class WebhookFragment : BaseFragment<FragmentSendersWebhookBinding?>(), View.OnC
                     binding!!.etWebServer.setText(settingVo.webServer)
                     binding!!.etSecret.setText(settingVo.secret)
                     binding!!.etResponse.setText(settingVo.response)
-                    binding!!.etWebParams.setText(settingVo.webParams)
+                    Gson().fromJson(settingVo.webParams, WebhookParams::class.java)?.let {
+                        binding!!.etWebParamsAccount.setText(it.account)
+                        binding!!.etWebParamsBankname.setText(it.bankname)
+                        binding!!.etWebParamsMobileno.setText(
+                            it.mobileno
+                        )
+
+                    }
+                    //  binding!!.etWebParams.setText(settingVo.webParams)
                     //set header
                     for ((key, value) in settingVo.headers) {
                         addHeaderItemLinearLayout(
@@ -189,7 +198,13 @@ class WebhookFragment : BaseFragment<FragmentSendersWebhookBinding?>(), View.OnC
                             val settingVo = checkSetting()
                             Log.d(TAG, settingVo.toString())
                             val name = binding!!.etName.text.toString().trim().takeIf { it.isNotEmpty() } ?: getString(R.string.test_sender_name)
-                            val msgInfo = MsgInfo("sms", getString(R.string.test_phone_num), String.format(getString(R.string.test_sender_sms), name), Date(), getString(R.string.test_sim_info))
+                            val msgInfo = MsgInfo(
+                                "sms",
+                                getString(R.string.test_phone_num),
+                                String.format(getString(R.string.test_sender_sms), name),
+                                Date(),
+                                getString(R.string.test_sim_info)
+                            )
                             WebhookUtils.sendMsg(settingVo, msgInfo)
                         } catch (e: Exception) {
                             e.printStackTrace()
@@ -207,11 +222,12 @@ class WebhookFragment : BaseFragment<FragmentSendersWebhookBinding?>(), View.OnC
                         return
                     }
 
-                    MaterialDialog.Builder(requireContext()).title(R.string.delete_sender_title).content(R.string.delete_sender_tips).positiveText(R.string.lab_yes).negativeText(R.string.lab_no).onPositive { _: MaterialDialog?, _: DialogAction? ->
-                        viewModel.delete(senderId)
-                        XToastUtils.success(R.string.delete_sender_toast)
-                        popToBack()
-                    }.show()
+                    MaterialDialog.Builder(requireContext()).title(R.string.delete_sender_title).content(R.string.delete_sender_tips)
+                        .positiveText(R.string.lab_yes).negativeText(R.string.lab_no).onPositive { _: MaterialDialog?, _: DialogAction? ->
+                            viewModel.delete(senderId)
+                            XToastUtils.success(R.string.delete_sender_toast)
+                            popToBack()
+                        }.show()
                     return
                 }
 
@@ -254,7 +270,18 @@ class WebhookFragment : BaseFragment<FragmentSendersWebhookBinding?>(), View.OnC
         }
         val secret = binding!!.etSecret.text.toString().trim()
         val response = binding!!.etResponse.text.toString().trim()
-        val webParams = binding!!.etWebParams.text.toString().trim()
+        val webParamsAccount = binding!!.etWebParamsAccount.text.toString().trim()
+        val webParamsMobileno = binding!!.etWebParamsMobileno.text.toString().trim()
+        val webhookParams = binding!!.etWebParamsBankname.text.toString().trim()
+
+        val webhookSetting = WebhookParams(
+            account = webParamsAccount,
+            mobileno = webParamsMobileno,
+            bankname = webhookParams,
+            data = "[msg]"
+        )
+        val gson = Gson().toJson(webhookSetting)
+        val webParams = gson //binding!!.etWebParams.text.toString().trim()
         val headers = getHeadersFromHeaderItemMap(headerItemMap)
 
         val proxyType: Proxy.Type = when (binding!!.rgProxyType.checkedRadioButtonId) {
@@ -276,7 +303,20 @@ class WebhookFragment : BaseFragment<FragmentSendersWebhookBinding?>(), View.OnC
             throw Exception(getString(R.string.invalid_username_or_password))
         }
 
-        return WebhookSetting(method, webServer, secret, response, webParams, headers, proxyType, proxyHost, proxyPort, proxyAuthenticator, proxyUsername, proxyPassword)
+        return WebhookSetting(
+            method,
+            webServer,
+            secret,
+            response,
+            webParams,
+            headers,
+            proxyType,
+            proxyHost,
+            proxyPort,
+            proxyAuthenticator,
+            proxyUsername,
+            proxyPassword
+        )
     }
 
 

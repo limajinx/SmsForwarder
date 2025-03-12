@@ -75,34 +75,35 @@ class CommonUtils private constructor() {
         @Suppress("SameParameterValue", "NAME_SHADOWING")
         @JvmStatic
         fun showPrivacyDialog(context: Context, submitListener: SingleButtonCallback?): Dialog {
-            val dialog = MaterialDialog.Builder(context).title(R.string.title_reminder).autoDismiss(false).cancelable(false).positiveText(R.string.lab_agree).onPositive { dialog1: MaterialDialog, which: DialogAction? ->
-                if (submitListener != null) {
-                    submitListener.onClick(dialog1, which!!)
-                } else {
-                    dialog1.dismiss()
-                }
-            }.negativeText(R.string.lab_disagree).onNegative { dialog, _ ->
-                dialog.dismiss()
-                DialogLoader.getInstance().showConfirmDialog(
-                    context, getString(R.string.title_reminder), String.format(
-                        getString(R.string.content_privacy_explain_again), getString(R.string.app_name)
-                    ), getString(R.string.lab_look_again), { dialog, _ ->
-                        dialog.dismiss()
-                        showPrivacyDialog(context, submitListener)
-                    }, getString(R.string.lab_still_disagree)
-                ) { dialog, _ ->
+            val dialog = MaterialDialog.Builder(context).title(R.string.title_reminder).autoDismiss(false).cancelable(false).positiveText(R.string.lab_agree)
+                .onPositive { dialog1: MaterialDialog, which: DialogAction? ->
+                    if (submitListener != null) {
+                        submitListener.onClick(dialog1, which!!)
+                    } else {
+                        dialog1.dismiss()
+                    }
+                }.negativeText(R.string.lab_disagree).onNegative { dialog, _ ->
                     dialog.dismiss()
                     DialogLoader.getInstance().showConfirmDialog(
-                        context, getString(R.string.content_think_about_it_again), getString(R.string.lab_look_again), { dialog, _ ->
+                        context, getString(R.string.title_reminder), String.format(
+                            getString(R.string.content_privacy_explain_again), getString(R.string.app_name)
+                        ), getString(R.string.lab_look_again), { dialog, _ ->
                             dialog.dismiss()
                             showPrivacyDialog(context, submitListener)
-                        }, getString(R.string.lab_exit_app)
+                        }, getString(R.string.lab_still_disagree)
                     ) { dialog, _ ->
                         dialog.dismiss()
-                        XUtil.exitApp()
+                        DialogLoader.getInstance().showConfirmDialog(
+                            context, getString(R.string.content_think_about_it_again), getString(R.string.lab_look_again), { dialog, _ ->
+                                dialog.dismiss()
+                                showPrivacyDialog(context, submitListener)
+                            }, getString(R.string.lab_exit_app)
+                        ) { dialog, _ ->
+                            dialog.dismiss()
+                            XUtil.exitApp()
+                        }
                     }
-                }
-            }.build()
+                }.build()
             dialog.setContent(getPrivacyContent(context))
             //开始响应点击事件
             dialog.contentView!!.movementMethod = LinkMovementMethod.getInstance()
@@ -114,7 +115,11 @@ class CommonUtils private constructor() {
          * @return 隐私政策说明
          */
         private fun getPrivacyContent(context: Context): SpannableStringBuilder {
-            return SpannableStringBuilder().append("    ").append(getString(R.string.privacy_content_1)).append(" ").append(getString(R.string.app_name)).append("!\n").append("    ").append(getString(R.string.privacy_content_2)).append("    ").append(getString(R.string.privacy_content_3)).append(getPrivacyLink(context, PRIVACY_URL)).append(getString(R.string.privacy_content_4)).append("    ").append(getString(R.string.privacy_content_5)).append(getPrivacyLink(context, PRIVACY_URL)).append(getString(R.string.privacy_content_6)).append("    ").append(getString(R.string.privacy_content_7))
+            return SpannableStringBuilder().append("    ").append(getString(R.string.privacy_content_1)).append(" ").append(getString(R.string.app_name))
+                .append("!\n").append("    ").append(getString(R.string.privacy_content_2)).append("    ").append(getString(R.string.privacy_content_3))
+                .append(getPrivacyLink(context, PRIVACY_URL)).append(getString(R.string.privacy_content_4)).append("    ")
+                .append(getString(R.string.privacy_content_5)).append(getPrivacyLink(context, PRIVACY_URL)).append(getString(R.string.privacy_content_6))
+                .append("    ").append(getString(R.string.privacy_content_7))
         }
 
         /**
@@ -205,7 +210,8 @@ class CommonUtils private constructor() {
             }
             val bounds = Rect()
             view?.getGlobalVisibleRect(bounds)
-            PreviewBuilder.from(fragment).setImgs(ImageInfo.newInstance(url, bounds)).setCurrentIndex(0).setSingleFling(true).setProgressColor(R.color.xui_config_color_main_theme).setType(PreviewBuilder.IndicatorType.Number).start()
+            PreviewBuilder.from(fragment).setImgs(ImageInfo.newInstance(url, bounds)).setCurrentIndex(0).setSingleFling(true)
+                .setProgressColor(R.color.xui_config_color_main_theme).setType(PreviewBuilder.IndicatorType.Number).start()
         }
 
         /**
@@ -217,7 +223,8 @@ class CommonUtils private constructor() {
          */
         @JvmStatic
         fun previewMarkdown(fragment: XPageFragment?, title: String, url: String, isImmersive: Boolean) {
-            PageOption.to(MarkdownFragment::class.java).putString(MarkdownFragment.KEY_MD_TITLE, title).putString(MarkdownFragment.KEY_MD_URL, url).putBoolean(MarkdownFragment.KEY_IS_IMMERSIVE, isImmersive).open(fragment!!)
+            PageOption.to(MarkdownFragment::class.java).putString(MarkdownFragment.KEY_MD_TITLE, title).putString(MarkdownFragment.KEY_MD_URL, url)
+                .putBoolean(MarkdownFragment.KEY_IS_IMMERSIVE, isImmersive).open(fragment!!)
         }
 
         //检查自定义模板中的标签是否合法
@@ -272,7 +279,8 @@ class CommonUtils private constructor() {
 
         //是否合法的域名
         fun checkDomain(domain: String): Boolean {
-            val pattenDomain = Pattern.compile("^(?=^.{3,255}$)(?:(?:(?:[a-zA-Z\\d]|[a-zA-Z\\d][a-zA-Z\\d\\-]*[a-zA-Z\\d])\\.){1,126}(?:[A-Za-z\\d]|[A-Za-z\\d][A-Za-z\\d\\-]*[A-Za-z\\d]))$")
+            val pattenDomain =
+                Pattern.compile("^(?=^.{3,255}$)(?:(?:(?:[a-zA-Z\\d]|[a-zA-Z\\d][a-zA-Z\\d\\-]*[a-zA-Z\\d])\\.){1,126}(?:[A-Za-z\\d]|[A-Za-z\\d][A-Za-z\\d\\-]*[A-Za-z\\d]))$")
             return pattenDomain.matcher(domain).matches()
         }
 
@@ -298,10 +306,14 @@ class CommonUtils private constructor() {
         fun toggleNotificationListenerService(context: Context) {
             val pm = context.packageManager
             pm.setComponentEnabledSetting(
-                ComponentName(context.applicationContext, NotificationService::class.java), PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP
+                ComponentName(context.applicationContext, NotificationService::class.java),
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                PackageManager.DONT_KILL_APP
             )
             pm.setComponentEnabledSetting(
-                ComponentName(context.applicationContext, NotificationService::class.java), PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP
+                ComponentName(context.applicationContext, NotificationService::class.java),
+                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                PackageManager.DONT_KILL_APP
             )
         }
 
@@ -352,7 +364,13 @@ class CommonUtils private constructor() {
         }
 
         // 动态创建标签按钮并设置点击事件(将标签插入指定输入框)
-        fun createTagButtons(context: Context, gridLayout: GridLayout, editText: EditText, scene: String = "basic", excludeButtons: Array<String> = emptyArray()) {
+        fun createTagButtons(
+            context: Context,
+            gridLayout: GridLayout,
+            editText: EditText,
+            scene: String = "basic",
+            excludeButtons: Array<String> = emptyArray()
+        ) {
             // 将排除的按钮转换成一个集合，方便查找
             val excludeSet = excludeButtons.toSet()
 

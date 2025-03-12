@@ -165,7 +165,7 @@ class GuideTipsDialog(context: Context?, tips: List<TipInfo>) :
          */
         @JvmStatic
         fun showTipsForce(context: Context?) {
-            XHttp.get(getString(R.string.url_tips))
+           /* XHttp.get(getString(R.string.url_tips))
                 .keepJson(true)
                 .ignoreHttpsCert()
                 .timeStamp(true) //url自动追加时间戳，避免缓存
@@ -182,16 +182,16 @@ class GuideTipsDialog(context: Context?, tips: List<TipInfo>) :
                                 && jsonObject.has("Code") && jsonObject["Code"].asInt == 0
                                 && jsonObject.has("Data") && jsonObject["Data"].isJsonArray
                             ) {
-                                val dataJsonArray = jsonObject["Data"].asJsonArray
-                                val listType = object : TypeToken<List<TipInfo>>() {}.type
-                                val tips = gson.fromJson<List<TipInfo>>(dataJsonArray, listType)
-                                GuideTipsDialog(context, tips).show()
+                             val dataJsonArray = jsonObject["Data"].asJsonArray
+                             val listType = object : TypeToken<List<TipInfo>>() {}.type
+                              val tips = gson.fromJson<List<TipInfo>>(dataJsonArray, listType)
+                              GuideTipsDialog(context, tips).show()
                             }
                         } catch (e: Exception) {
                             e.printStackTrace()
                         }
                     }
-                })
+                })*/
         }
 
         fun setIsIgnoreTips(isIgnore: Boolean): Boolean {

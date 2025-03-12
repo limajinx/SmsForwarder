@@ -156,12 +156,36 @@
                     tools:ignore="SmallSp" />
 
                 <com.xuexiang.xui.widget.edittext.ClearEditText
-                    android:id="@+id/et_webParams"
+                    android:id="@+id/et_webParams_account"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:autofillHints=""
                     android:gravity="left|top"
-                    android:hint="@string/optional"
+                    android:hint="Account"
+                    android:inputType="textMultiLine"
+                    android:minLines="3"
+                    android:text=""
+                    tools:ignore="RtlHardcoded,SpeakableTextPresentCheck" />
+
+                <com.xuexiang.xui.widget.edittext.ClearEditText
+                    android:id="@+id/et_webParams_bankname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints=""
+                    android:gravity="left|top"
+                    android:hint="Bank Name"
+                    android:inputType="textMultiLine"
+                    android:minLines="3"
+                    android:text=""
+                    tools:ignore="RtlHardcoded,SpeakableTextPresentCheck" />
+
+                <com.xuexiang.xui.widget.edittext.ClearEditText
+                    android:id="@+id/et_webParams_mobileno"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints=""
+                    android:gravity="left|top"
+                    android:hint="Mobileno"
                     android:inputType="textMultiLine"
                     android:minLines="3"
                     android:text=""

@@ -88,63 +88,64 @@ class SendersFragment : BaseFragment<FragmentSendersBinding?>(),
     private val dialog: BottomSheetDialog by lazy { BottomSheetDialog(requireContext()) }
     private var currentStatus: Int = 1
     private var SENDER_FRAGMENT_LIST = listOf(
+        /*  PageInfo(
+              getString(R.string.dingtalk_robot),
+              "com.idormy.sms.forwarder.fragment.senders.DingtalkGroupRobotFragment",
+              "{\"\":\"\"}",
+              CoreAnim.slide,
+              R.drawable.icon_dingtalk
+          ),
+          PageInfo(
+              getString(R.string.email),
+              "com.idormy.sms.forwarder.fragment.senders.EmailFragment",
+              "{\"\":\"\"}",
+              CoreAnim.slide,
+              R.drawable.icon_email
+          ),
+          PageInfo(
+              getString(R.string.bark),
+              "com.idormy.sms.forwarder.fragment.senders.BarkFragment",
+              "{\"\":\"\"}",
+              CoreAnim.slide,
+              R.drawable.icon_bark
+          ),
+
+          PageInfo(
+              getString(R.string.wework_robot),
+              "com.idormy.sms.forwarder.fragment.senders.WeworkRobotFragment",
+              "{\"\":\"\"}",
+              CoreAnim.slide,
+              R.drawable.icon_wework_robot
+          ),
+          PageInfo(
+              getString(R.string.wework_agent),
+              "com.idormy.sms.forwarder.fragment.senders.WeworkAgentFragment",
+              "{\"\":\"\"}",
+              CoreAnim.slide,
+              R.drawable.icon_wework_agent
+          ),
+          PageInfo(
+              getString(R.string.server_chan),
+              "com.idormy.sms.forwarder.fragment.senders.ServerchanFragment",
+              "{\"\":\"\"}",
+              CoreAnim.slide,
+              R.drawable.icon_serverchan
+          ),*/
         PageInfo(
-            getString(R.string.dingtalk_robot),
-            "com.idormy.sms.forwarder.fragment.senders.DingtalkGroupRobotFragment",
+            getString(R.string.telegram),
+            "com.idormy.sms.forwarder.fragment.senders.TelegramFragment",
             "{\"\":\"\"}",
             CoreAnim.slide,
-            R.drawable.icon_dingtalk
-        ),
-        PageInfo(
-            getString(R.string.email),
-            "com.idormy.sms.forwarder.fragment.senders.EmailFragment",
-            "{\"\":\"\"}",
-            CoreAnim.slide,
-            R.drawable.icon_email
-        ),
-        PageInfo(
-            getString(R.string.bark),
-            "com.idormy.sms.forwarder.fragment.senders.BarkFragment",
-            "{\"\":\"\"}",
-            CoreAnim.slide,
-            R.drawable.icon_bark
+            R.drawable.icon_telegram,
         ),
         PageInfo(
             getString(R.string.webhook),
             "com.idormy.sms.forwarder.fragment.senders.WebhookFragment",
             "{\"\":\"\"}",
             CoreAnim.slide,
-            R.drawable.icon_webhook
+            R.drawable.icon_webhook,
         ),
-        PageInfo(
-            getString(R.string.wework_robot),
-            "com.idormy.sms.forwarder.fragment.senders.WeworkRobotFragment",
-            "{\"\":\"\"}",
-            CoreAnim.slide,
-            R.drawable.icon_wework_robot
-        ),
-        PageInfo(
-            getString(R.string.wework_agent),
-            "com.idormy.sms.forwarder.fragment.senders.WeworkAgentFragment",
-            "{\"\":\"\"}",
-            CoreAnim.slide,
-            R.drawable.icon_wework_agent
-        ),
-        PageInfo(
-            getString(R.string.server_chan),
-            "com.idormy.sms.forwarder.fragment.senders.ServerchanFragment",
-            "{\"\":\"\"}",
-            CoreAnim.slide,
-            R.drawable.icon_serverchan
-        ),
-        PageInfo(
-            getString(R.string.telegram),
-            "com.idormy.sms.forwarder.fragment.senders.TelegramFragment",
-            "{\"\":\"\"}",
-            CoreAnim.slide,
-            R.drawable.icon_telegram
-        ),
-        PageInfo(
+        /*PageInfo(
             getString(R.string.sms_menu),
             "com.idormy.sms.forwarder.fragment.senders.SmsFragment",
             "{\"\":\"\"}",
@@ -199,7 +200,7 @@ class SendersFragment : BaseFragment<FragmentSendersBinding?>(),
             "{\"\":\"\"}",
             CoreAnim.slide,
             R.drawable.icon_socket
-        ),
+        ),*/
     )
 
     override fun viewBindingInflate(
@@ -211,9 +212,10 @@ class SendersFragment : BaseFragment<FragmentSendersBinding?>(),
 
     override fun initTitle(): TitleBar? {
         titleBar = super.initTitle()!!.setImmersive(false)
-        titleBar!!.setLeftImageResource(R.drawable.ic_action_menu)
-        titleBar!!.setTitle(R.string.menu_senders)
-        titleBar!!.setLeftClickListener { getContainer()?.openMenu() }
+        titleBar!!.setLeftVisible(false);
+        /*        titleBar!!.setLeftImageResource(R.drawable.ic_action_menu)
+                titleBar!!.setTitle(R.string.menu_senders)
+                titleBar!!.setLeftClickListener { getContainer()?.openMenu() }*/
         titleBar!!.addAction(object : TitleBar.ImageAction(R.drawable.ic_add) {
             @SuppressLint("InflateParams")
             @SingleClick

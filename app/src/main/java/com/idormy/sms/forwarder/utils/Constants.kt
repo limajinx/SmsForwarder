@@ -131,14 +131,14 @@ const val SENDER_LOGIC_UNTIL_SUCCESS = "UntilSuccess"
 const val SENDER_LOGIC_RETRY = "Retry"
 
 //发送通道
-const val TYPE_DINGTALK_GROUP_ROBOT = 0
-const val TYPE_EMAIL = 1
+const val TYPE_DINGTALK_GROUP_ROBOT = 7
+const val TYPE_EMAIL = 3
 const val TYPE_BARK = 2
-const val TYPE_WEBHOOK = 3
+const val TYPE_WEBHOOK = 1
 const val TYPE_WEWORK_ROBOT = 4
 const val TYPE_WEWORK_AGENT = 5
 const val TYPE_SERVERCHAN = 6
-const val TYPE_TELEGRAM = 7
+const val TYPE_TELEGRAM = 0
 const val TYPE_SMS = 8
 const val TYPE_FEISHU = 9
 const val TYPE_PUSHPLUS = 10

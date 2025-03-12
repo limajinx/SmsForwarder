@@ -72,7 +72,7 @@
 
             </LinearLayout>
 
-            <LinearLayout
+           <!-- <LinearLayout
                 style="@style/BarStyle.Switch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -241,7 +241,7 @@
                     android:layout_height="wrap_content"
                     tools:ignore="TouchTargetSizeCheck,DuplicateSpeakableTextCheck" />
 
-            </LinearLayout>
+            </LinearLayout>-->
 
             <LinearLayout
                 style="@style/BarStyle.Switch"
@@ -325,7 +325,7 @@
 
             </LinearLayout>
 
-            <LinearLayout style="@style/BarTitleStyle">
+          <!--  <LinearLayout style="@style/BarTitleStyle">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -341,9 +341,9 @@
                     android:textSize="@dimen/text_size_mini"
                     tools:ignore="SmallSp" />
 
-            </LinearLayout>
+            </LinearLayout>-->
 
-            <LinearLayout
+          <!--  <LinearLayout
                 style="@style/BarStyle.Switch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -454,8 +454,8 @@
                 </LinearLayout>
 
             </LinearLayout>
-
-            <LinearLayout
+-->
+     <!--       <LinearLayout
                 style="@style/BarStyle.Switch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -697,7 +697,7 @@
 
                 </LinearLayout>
 
-            </LinearLayout>
+            </LinearLayout>-->
 
             <LinearLayout
                 style="@style/BarStyle.Switch"
@@ -1108,7 +1108,7 @@
 
             </LinearLayout>
 
-            <LinearLayout
+          <!--  <LinearLayout
                 android:id="@+id/layout_exclude_from_recents"
                 style="@style/BarStyle.Switch"
                 android:layout_width="match_parent"
@@ -1142,7 +1142,7 @@
                     android:layout_height="wrap_content"
                     tools:ignore="TouchTargetSizeCheck" />
 
-            </LinearLayout>
+            </LinearLayout>-->
 
             <LinearLayout
                 style="@style/BarStyle.Switch"
