@@ -125,14 +125,18 @@
 
                 </LinearLayout>
 
-                <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
-                    android:id="@+id/et_webServer"
+                <Spinner
+                    android:id="@+id/et_webServer_spinner"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textUri"
-                    android:singleLine="true"
-                    app:met_clearButton="true"
-                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+                    android:layout_height="50dp" />
+                <!--                <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                                    android:id="@+id/et_webServer"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="textUri"
+                                    android:singleLine="true"
+                                    app:met_clearButton="true"
+                                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />-->
 
             </LinearLayout>
 

@@ -4,6 +4,7 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.CompoundButton
 import android.widget.EditText
 import android.widget.ImageView
@@ -56,6 +57,7 @@ class WebhookFragment : BaseFragment<FragmentSendersWebhookBinding?>(), View.OnC
     private val viewModel by viewModels<SenderViewModel> { BaseViewModelFactory(context) }
     private var mCountDownHelper: CountDownButtonHelper? = null
     private var headerItemMap = HashMap<Int, LinearLayout>(2)
+    private val items = listOf("OW: https://admin1ht.com/xy/GetRMDecode", "UAT: https://api-tu.100scrop.tech/xy/GetRMDecode")
 
     @JvmField
     @AutoWired(name = KEY_SENDER_ID)
@@ -89,6 +91,12 @@ class WebhookFragment : BaseFragment<FragmentSendersWebhookBinding?>(), View.OnC
      * 初始化控件
      */
     override fun initViews() {
+        var adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, items)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        binding!!.etWebServerSpinner.adapter = adapter
+        // 设置默认选中第一个选项
+        binding!!.etWebServerSpinner.setSelection(0)
         //测试按钮增加倒计时，避免重复点击
         mCountDownHelper = CountDownButtonHelper(binding!!.btnTest, SettingUtils.requestTimeout)
         mCountDownHelper!!.setOnCountDownListener(object : CountDownButtonHelper.OnCountDownListener {
@@ -131,7 +139,13 @@ class WebhookFragment : BaseFragment<FragmentSendersWebhookBinding?>(), View.OnC
                 Log.d(TAG, settingVo.toString())
                 if (settingVo != null) {
                     binding!!.rgMethod.check(settingVo.getMethodCheckId())
-                    binding!!.etWebServer.setText(settingVo.webServer)
+                    for (i in items.indices) {
+                        if (items[i].contains(settingVo.webServer)) {
+                            binding!!.etWebServerSpinner.setSelection(i)
+                            break
+                        }
+                    }
+
                     binding!!.etSecret.setText(settingVo.secret)
                     binding!!.etResponse.setText(settingVo.response)
                     Gson().fromJson(settingVo.webParams, WebhookParams::class.java)?.let {
@@ -257,7 +271,7 @@ class WebhookFragment : BaseFragment<FragmentSendersWebhookBinding?>(), View.OnC
     }
 
     private fun checkSetting(): WebhookSetting {
-        val webServer = binding!!.etWebServer.text.toString().trim()
+        val webServer = binding!!.etWebServerSpinner.selectedItem.toString().split(": ").last().trim()
         if (!CommonUtils.checkUrl(webServer, false)) {
             throw Exception(getString(R.string.invalid_webserver))
         }
