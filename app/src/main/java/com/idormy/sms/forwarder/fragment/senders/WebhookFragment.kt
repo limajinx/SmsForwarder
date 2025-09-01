@@ -57,7 +57,7 @@ class WebhookFragment : BaseFragment<FragmentSendersWebhookBinding?>(), View.OnC
     private val viewModel by viewModels<SenderViewModel> { BaseViewModelFactory(context) }
     private var mCountDownHelper: CountDownButtonHelper? = null
     private var headerItemMap = HashMap<Int, LinearLayout>(2)
-    private val items = listOf("OW: https://admin1ht.com/xy/GetRMDecode", "UAT: https://api-tu.100scrop.tech/xy/GetRMDecode")
+    private val items = listOf("https://b1.swdpay.online/xy/GetRMDecode",)
 
     @JvmField
     @AutoWired(name = KEY_SENDER_ID)
@@ -272,6 +272,7 @@ class WebhookFragment : BaseFragment<FragmentSendersWebhookBinding?>(), View.OnC
 
     private fun checkSetting(): WebhookSetting {
         val webServer = binding!!.etWebServerSpinner.selectedItem.toString().split(": ").last().trim()
+        Log.d(TAG, webServer)
         if (!CommonUtils.checkUrl(webServer, false)) {
             throw Exception(getString(R.string.invalid_webserver))
         }
