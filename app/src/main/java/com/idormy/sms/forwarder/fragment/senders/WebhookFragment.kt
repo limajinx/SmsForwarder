@@ -48,6 +48,8 @@ import io.reactivex.schedulers.Schedulers
 import java.net.Proxy
 import java.util.Date
 
+private const val splitText = ": ";
+
 @Page(name = "Webhook")
 @Suppress("PrivatePropertyName")
 class WebhookFragment : BaseFragment<FragmentSendersWebhookBinding?>(), View.OnClickListener, CompoundButton.OnCheckedChangeListener {
@@ -57,7 +59,8 @@ class WebhookFragment : BaseFragment<FragmentSendersWebhookBinding?>(), View.OnC
     private val viewModel by viewModels<SenderViewModel> { BaseViewModelFactory(context) }
     private var mCountDownHelper: CountDownButtonHelper? = null
     private var headerItemMap = HashMap<Int, LinearLayout>(2)
-    private val items = listOf("https://b1.swdpay.online/xy/GetRMDecode",)
+    private val items = listOf("OW${splitText}https://b1.onepay1ht.online/xy/GetRMDecode", "UAT${splitText}http://thb3.mvkbnb.com/xy/GetRMDecode")
+
 
     @JvmField
     @AutoWired(name = KEY_SENDER_ID)
@@ -271,7 +274,7 @@ class WebhookFragment : BaseFragment<FragmentSendersWebhookBinding?>(), View.OnC
     }
 
     private fun checkSetting(): WebhookSetting {
-        val webServer = binding!!.etWebServerSpinner.selectedItem.toString().split(": ").last().trim()
+        val webServer = binding!!.etWebServerSpinner.selectedItem.toString().split(splitText).last().trim()
         Log.d(TAG, webServer)
         if (!CommonUtils.checkUrl(webServer, false)) {
             throw Exception(getString(R.string.invalid_webserver))
@@ -290,10 +293,7 @@ class WebhookFragment : BaseFragment<FragmentSendersWebhookBinding?>(), View.OnC
         val webhookParams = binding!!.etWebParamsBankname.text.toString().trim()
 
         val webhookSetting = WebhookParams(
-            account = webParamsAccount,
-            mobileno = webParamsMobileno,
-            bankname = webhookParams,
-            data = "[msg]"
+            account = webParamsAccount, mobileno = webParamsMobileno, bankname = webhookParams, data = "[msg]"
         )
         val gson = Gson().toJson(webhookSetting)
         val webParams = gson //binding!!.etWebParams.text.toString().trim()
@@ -319,18 +319,7 @@ class WebhookFragment : BaseFragment<FragmentSendersWebhookBinding?>(), View.OnC
         }
 
         return WebhookSetting(
-            method,
-            webServer,
-            secret,
-            response,
-            webParams,
-            headers,
-            proxyType,
-            proxyHost,
-            proxyPort,
-            proxyAuthenticator,
-            proxyUsername,
-            proxyPassword
+            method, webServer, secret, response, webParams, headers, proxyType, proxyHost, proxyPort, proxyAuthenticator, proxyUsername, proxyPassword
         )
     }
 
